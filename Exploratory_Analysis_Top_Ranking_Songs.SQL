@@ -31,16 +31,16 @@ SELECT Artist, count(Title), sum(sales) as total_sales
 FROM songs
 GROUP BY Artist
 ORDER BY total_sales DESC;
- 
 
-#1. Which artist had the highest total sales in total and in a given year?
- #1997 has the most number of sales and titles released, so who had the highest total sales in that year. 
 SELECT Year,
 COUNT(Title) as Total_title
 FROM Songs
 GROUP BY Year
 ORDER BY Total_title DESC
 LIMIT 10;   
+
+#1. Which artist had the highest total sales in total and in a given year?
+ #1997 has the most number of sales and titles released, so who had the highest total sales in that year. 
 SELECT Artist,
 ROUND(SUM(Sales)) as total_sales_count
 FROM songs
@@ -48,22 +48,6 @@ Where year = 1997
 GROUP BY Artist
 ORDER BY total_sales_count DESC
 LIMIT 10;
-
-SELECT Artist, Year,
-ROUND(SUM(Sales)) as total_sales_count
-FROM songs
-GROUP BY Year, Artist
-ORDER BY total_sales_count DESC;
-
-#Who is the artist with the most sales in the year with the highest sales?
-SELECT 
-Year,
-ROUND(SUM(sales),2) AS total_yearly_sales
-FROM songs
-GROUP BY Year
-ORDER BY total_yearly_sales DESC
-LIMIT 10;
-
 
 #2. Is there a correlation between the number of releases in a year and the total sales in that year?
 SELECT Year,
@@ -160,9 +144,7 @@ WHERE streams != 0
 	AND downloads !=0
 GROUP BY Year
 ORDER BY Year; 
- 
-#rating, radio plays, downloads, sales, streams
-#the yearly data for an artiste might matter, year on year to observe growth. and how it is growing
+
 SELECT Artist,
 	lag(Artist) 
 OVER(PARTITION BY Artist)
@@ -192,5 +174,10 @@ FROM Artist_sales
 WHERE Artist = 'Madonna'
 Group BY Artist, Year;
 
-
+CREATE VIEW Salesonsales AS
+SELECT Artist, Year, ROUND(SUM(sales),2) AS total_sales_per_artist, ROUND(SUM(streams),2) AS total_streams_per_artist
+FROM songs
+WHERE streams != '0'
+Group by Artist, Year
+ORDER BY total_sales_per_artist;
 
