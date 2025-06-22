@@ -1,5 +1,5 @@
 CREATE TABLE shopping_data( 
- customer_ID VARCHAR(38) PRIMARY KEY,
+ customer_id VARCHAR(38) PRIMARY KEY,
  age INT,
  gender VARCHAR(7),
  city VARCHAR(26),
